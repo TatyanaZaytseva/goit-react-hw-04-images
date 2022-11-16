@@ -1,53 +1,44 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import css from 'components/ImageGalleryItem/ImageGalleryItem.module.css';
 import { Modal } from 'components/Modal/Modal';
 
-export class ImageGalleryItem extends Component {
-  state = {
-    isModalOpen: false,
-  };
+export function ImageGalleryItem({ smallImage, largeImage, tag }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.isModalOpen) {
-      window.addEventListener('keydown', this.onModalKeydown);
-    } else window.removeEventListener('keydown', this.onModalKeydown);
-  }
+  useEffect(() => {
+    if (isModalOpen) {
+      window.addEventListener('keydown', onModalKeydown);
+    } else window.removeEventListener('keydown', onModalKeydown);
+  });
 
-  onModalKeydown = e => {
+  const onModalKeydown = e => {
     if (e.key === 'Escape') {
-      this.closeModal();
+      closeModal();
     }
   };
 
-  openModal = () => {
-    this.setState({ isModalOpen: true });
+  const openModal = () => {
+    setIsModalOpen(true);
   };
 
-  closeModal = () => {
-    this.setState({ isModalOpen: false });
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
-  render() {
-    const { smallImage, largeImage, tag } = this.props;
-    return (
-      <li className={css.gallery_item}>
-        <img
-          src={smallImage}
-          alt={tag}
-          className={css.gallery_image}
-          onClick={this.openModal}
-        />
-        {this.state.isModalOpen && (
-          <Modal
-            largeImage={largeImage}
-            tag={tag}
-            onModalClose={this.closeModal}
-          />
-        )}
-      </li>
-    );
-  }
+  return (
+    <li className={css.gallery_item}>
+      <img
+        src={smallImage}
+        alt={tag}
+        className={css.gallery_image}
+        onClick={openModal}
+      />
+      {isModalOpen && (
+        <Modal largeImage={largeImage} tag={tag} onModalClose={closeModal} />
+      )}
+    </li>
+  );
 }
 
 ImageGalleryItem.propTypes = {

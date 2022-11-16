@@ -1,51 +1,47 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { ImSearch } from 'react-icons/im';
 import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
 import css from 'components/SearchBar/SearchBar.module.css';
 
-export class SearchBar extends Component {
-  state = {
-    imageName: '',
-  };
+export function SearchBar({ onSubmit }) {
+  const [imageName, setImageName] = useState('');
 
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
 
-    if (this.state.imageName.trim() === '') {
+    if (imageName.trim() === '') {
       toast.error('Введіть назву у пошуку');
       return;
     }
 
-    this.props.onSubmit(this.state.imageName);
-    this.setState({ imageName: '' });
+    onSubmit(imageName);
+    setImageName('');
   };
 
-  handleInputChange = event => {
-    this.setState({ imageName: event.currentTarget.value.toLowerCase() });
+  const handleInputChange = event => {
+    setImageName(event.currentTarget.value.toLowerCase());
   };
 
-  render() {
-    return (
-      <header className={css.searchbar}>
-        <form className={css.form} onSubmit={this.handleSubmit}>
-          <button type="submit" className={css.button}>
-            <ImSearch />
-          </button>
+  return (
+    <header className={css.searchbar}>
+      <form className={css.form} onSubmit={handleSubmit}>
+        <button type="submit" className={css.button}>
+          <ImSearch />
+        </button>
 
-          <input
-            className={css.input}
-            type="text"
-            autocomplete="off"
-            autofocus
-            placeholder="Search images and photos"
-            onChange={this.handleInputChange}
-            value={this.state.imageName}
-          />
-        </form>
-      </header>
-    );
-  }
+        <input
+          className={css.input}
+          type="text"
+          autocomplete="off"
+          autofocus
+          placeholder="Search images and photos"
+          onChange={handleInputChange}
+          value={imageName}
+        />
+      </form>
+    </header>
+  );
 }
 
 SearchBar.propTypes = {
