@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ImSearch } from 'react-icons/im';
 import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
+
 import css from 'components/SearchBar/SearchBar.module.css';
 
 export function SearchBar({ onSubmit }) {

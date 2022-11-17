@@ -1,16 +1,11 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import css from 'components/ImageGalleryItem/ImageGalleryItem.module.css';
+
 import { Modal } from 'components/Modal/Modal';
+import css from 'components/ImageGalleryItem/ImageGalleryItem.module.css';
 
 export function ImageGalleryItem({ smallImage, largeImage, tag }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    if (isModalOpen) {
-      window.addEventListener('keydown', onModalKeydown);
-    } else window.removeEventListener('keydown', onModalKeydown);
-  });
 
   const onModalKeydown = e => {
     if (e.key === 'Escape') {
@@ -25,6 +20,12 @@ export function ImageGalleryItem({ smallImage, largeImage, tag }) {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    if (isModalOpen) {
+      window.addEventListener('keydown', onModalKeydown);
+    } else window.removeEventListener('keydown', onModalKeydown);
+  });
 
   return (
     <li className={css.gallery_item}>

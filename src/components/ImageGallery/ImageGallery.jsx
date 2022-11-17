@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import PropTypes from 'prop-types';
+
 import css from 'components/ImageGallery/ImageGallery.module.css';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
-import { request } from '../../api/request';
-import toast from 'react-hot-toast';
+import { request } from 'api/request';
 
 export function ImageGallery({ imageName, setStatus, page }) {
   const [images, setImages] = useState([]);
